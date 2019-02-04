@@ -219,22 +219,22 @@ def register(request):
 
 
 def register_done(request):
-    return render(request, 'registration/register_done.html',{'home': register_done})
+    return render(request, 'registration/register_done.html',)
 
 
 def password_reset(request):
-    return render(request, 'registration/password_reset.html',
+    return render(request, 'home/password_reset.html',
     {'home': password_reset})
 
 
 def password_reset_confirm(request):
-    return render(request, 'registration/password_reset_confirm.html',
+    return render(request, 'home/password_reset_confirm.html',
     {'home': password_reset_confirm})
 
 def password_reset_email(request):
-    return render(request, 'registration/password_reset_email.html',
+    return render(request, 'home/password_reset_email.html',
     {'home': password_reset_email})
 
 def password_reset_complete(request):
-    return render(request, 'registration/password_reset_complete.html',
+    return render(request, 'home/password_reset_complete.html',
     {'home': password_reset_complete})
