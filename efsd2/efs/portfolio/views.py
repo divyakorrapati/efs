@@ -212,14 +212,14 @@ def register(request):
                                             password=form.cleaned_data['password1'],
                                             email=form.cleaned_data['email'])
             #return HttpResponseRedirect('/')
-            return HttpResponseRedirect('/register_done')
+            return HttpResponseRedirect('/register/success/')
     else:
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
 
 
-def register_done(request):
-    return render(request, 'registration/register_done.html',)
+def register_success(request):
+    return render(request, 'registration/success.html',  )
 
 
 def password_reset(request):

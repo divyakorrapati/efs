@@ -29,7 +29,7 @@
         }
         /* Set black background color, white text and some padding */
         footer {
-            background-color: #555;
+            background-color: dodgerblue;
             color: white;
             padding: 15px;
         }
@@ -87,6 +87,7 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{% url 'logout' %}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            <li><a href="{% url 'portfolio:password_change' %}"><i class="fa fa-btn fa-sign-out"></i>Change Password</a></li>
                         </ul>
                     </li>
                 {% else %}

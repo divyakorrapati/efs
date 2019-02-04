@@ -14,12 +14,12 @@ body {
 }
 
 h1 a {
-    color: #FCA205;
+    color: lightskyblue;
     font-family: 'cursive';
 
 }
     ._head {
-    background-color: tomato;
+    background-color: lightskyblue;
     color: white;
     padding: 10px;
 }
