@@ -1,9 +1,10 @@
 from django.db import models
-
 from django.utils import timezone
+from django.contrib.auth.models import User
+import requests
+import json
 
 
-# Create your models here.
 class Customer(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=200)
@@ -28,8 +29,9 @@ class Customer(models.Model):
     def __str__(self):
         return str(self.cust_number)
 
+
 class Investment(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='investments')
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE, related_name='investments')
     category = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
     acquired_value = models.DecimalField(max_digits=10, decimal_places=2)
@@ -51,13 +53,37 @@ class Investment(models.Model):
     def results_by_investment(self):
         return self.recent_value - self.acquired_value
 
+
 class Stock(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='stocks')
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE, related_name='stocks')
     symbol = models.CharField(max_length=10)
     name = models.CharField(max_length=50)
     shares = models.DecimalField (max_digits=10, decimal_places=1)
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
     purchase_date = models.DateField(default=timezone.now, blank=True, null=True)
+
+    def current_stock_price(self):
+        symbol_f = str(self.symbol)
+        main_api = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='
+        api_key = '&interval=1min&apikey=0JXN6D9DEDMD1J87'
+        url = main_api + symbol_f + api_key
+        json_data = requests.get(url).json()
+        mkt_dt = (json_data["Meta Data"]["3. Last Refreshed"])
+        open_price = float(json_data["Time Series (1min)"][mkt_dt]["1. open"])
+        share_value = open_price
+        return share_value
+
+    def current_stock_value(self):
+        symbol_f = str(self.symbol)
+        main_api = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='
+        api_key = '&interval=1min&apikey=0JXN6D9DEDMD1J87'
+        url = main_api + symbol_f + api_key
+        json_data = requests.get(url).json()
+        mkt_dt = (json_data["Meta Data"]["3. Last Refreshed"])
+        open_price = float(json_data["Time Series (1min)"][mkt_dt]["1. open"])
+        share_value = open_price
+        return float(share_value) * float(self.shares)
+
 
     def created(self):
         self.recent_date = timezone.now()
